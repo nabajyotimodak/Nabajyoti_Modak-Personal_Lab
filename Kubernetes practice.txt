@@ -1,0 +1,129 @@
+LAUNCHING K8 CLUSTER:
+User Data For Client Machine: (AWS S3 bucket name has to be checked along with AWS access and secret access key as well)
+
+#! /bin/bash
+sudo su - root
+sudo apt-get update -y
+sudo apt-get install awscli -y
+curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+sudo chmod +x ./kops
+sudo mv ./kops /usr/local/bin
+curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+sudo chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin
+export AWS_ACCESS_KEY_ID=AKIXXXXXXXXXXXXGM5
+export AWS_SECRET_ACCESS_KEY=KXLXXXXXXXXXXXXXXXXXXXXXXXXXF9b/R
+export NAME=naba.k8s.local
+export KOPS_STATE_STORE=s3://naXXXXXuck
+sudo apt-get install docker.io -y
+sudo apt-get install git -y
+sudo apt-get install openjdk-11-jdk -y
+
+=============================================================================================================================
+
+CLUSTER CREATION COMMAND:
+
+kops create cluster --name=${NAME} \
+  --state=${KOPS_STATE_STORE} \
+  --zones=us-east-2a
+
+The output:
+Suggestions:
+ * list clusters with: kops get cluster
+ * edit this cluster with: kops edit cluster naba.k8s.local
+ * edit your node instance group: kops edit ig --name=naba.k8s.local nodes-us-east-2a
+ * edit your control-plane instance group: kops edit ig --name=naba.k8s.local control-plane-us-east-2a
+
+Finally configure your cluster with: [kops update cluster --name naba.k8s.local --yes --admin]
+
+=======================================================================================================================
+
+
+Creating NS in Command: kubectl create ns nabaspace
+
+Creating pod in command: kubectl run naba --image=httpd -n nabaspace
+
+Editing POD/S: Kubectl edit pods -n <namespace> --name=<pod-name>
+
+
+menifest files are yet to come.............!!!!!!
+
+
+===============================================================================================
+practice labs:
+
+root@ip-172-31-235-148:~# history
+    1  sudo apt-get update
+    2  clear
+    3  sudo apt-get install awscli -y
+    4  curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+    5  clear
+    6  ls
+    7  sudo chmod +x ./kops
+    8  sudo mv ./kops /usr/local/bin
+    9  ls
+   10  ls /usr/local/bin
+   11  clear
+   12  ls
+   13  curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+   14  ls
+   15  sudo chmod +x ./kubectl
+   16  ls
+   17  sudo mv ./kubectl /usr/local/bin
+   18  ls
+   19  clear
+   20  aws configure
+   21  export AWS_ACCESS_KEY_ID=AKIAXXXXXXXXXXXXXXXXGM5
+   22  export AWS_SECRET_ACCESS_KEY=KXLXXXXXXXXXXXXXXXXXWzF9b/R
+   23  export NAME=naba.k8s.local
+   24  export KOPS_STATE_STORE=s3://naXXXXXXuck
+   25  printenv
+   26  clear
+   27  kops create cluster --name=${NAME}   --state=${KOPS_STATE_STORE}   --zones=us-east-2a
+   28  kops update cluster --name naba.k8s.local --yes --admin
+   29  kops validate cluster
+   30  clear
+   31  kops validate cluster
+   32  kubectl get ns
+   33  kubectl get nodes
+   34  kubectl get pods -n kube-system
+   35  clear
+   36  history
+   37  clear
+   38  kubectl get nodes
+   39  vi main.yaml
+   40  kubectl apply -f main.yaml
+   41  kubectl get ns
+   42  sudo apt-get install docker.io
+   43  docker --version
+   44  clear
+   45  docker ps
+   46  ls -la
+   47  history
+root@ip-172-31-235-148:~#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
