@@ -11,10 +11,10 @@ sudo mv ./kops /usr/local/bin
 curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 sudo chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin
-export AWS_ACCESS_KEY_ID=AKIXXXXXXXXXXXXGM5
-export AWS_SECRET_ACCESS_KEY=KXLXXXXXXXXXXXXXXXXXXXXXXXXXF9b/R
+export AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXX
+export AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXXXXXXXXXXXX
 export NAME=naba.k8s.local
-export KOPS_STATE_STORE=s3://naXXXXXuck
+export KOPS_STATE_STORE=s3://<bucket-name>
 sudo apt-get install docker.io -y
 sudo apt-get install git -y
 sudo apt-get install openjdk-11-jdk -y
@@ -101,6 +101,234 @@ root@ip-172-31-235-148:~# history
    46  ls -la
    47  history
 root@ip-172-31-235-148:~#
+
+
+root@ip-172-31-235-148:~#
+root@ip-172-31-235-148:~# kops delete cluster --name=naba.k8s.local --state=s3://<bucketname> --yes
+I0311 15:03:17.999851    5051 delete_cluster.go:128] Looking for cloud resources to delete
+TYPE                    NAME                                            ID
+autoscaling-config      control-plane-us-east-2a.masters.naba.k8s.local lt-09febe30efb18ad74
+autoscaling-config      nodes-us-east-2a.naba.k8s.local                 lt-0d2c5186cccb3f40d
+autoscaling-group       control-plane-us-east-2a.masters.naba.k8s.local control-plane-us-east-2a.masters.naba.k8s.local
+autoscaling-group       nodes-us-east-2a.naba.k8s.local                 nodes-us-east-2a.naba.k8s.local
+dhcp-options            naba.k8s.local                                  dopt-0d502efd84526a115
+iam-instance-profile    masters.naba.k8s.local                          masters.naba.k8s.local
+iam-instance-profile    nodes.naba.k8s.local                            nodes.naba.k8s.local
+iam-role                masters.naba.k8s.local                          masters.naba.k8s.local
+iam-role                nodes.naba.k8s.local                            nodes.naba.k8s.local
+instance                control-plane-us-east-2a.masters.naba.k8s.local i-0654d3e892cdd3fdd
+instance                nodes-us-east-2a.naba.k8s.local                 i-0764b936f3e6ed8f5
+internet-gateway        naba.k8s.local                                  igw-06923c3653b3ad736
+load-balancer           api-naba-k8s-local-pedmp4                       arn:aws:elasticloadbalancing:us-east-2:513174677429:loadbalancer/net/api-naba-k8s-local-pedmp4/125ee201328a392a
+route-table             naba.k8s.local                                  rtb-0665f3ad9a1629dca
+security-group          api-elb.naba.k8s.local                          sg-0c1bddb372267811d
+security-group          masters.naba.k8s.local                          sg-09c5cb1735573d39a
+security-group          nodes.naba.k8s.local                            sg-044bc49de773f05f8
+subnet                  us-east-2a.naba.k8s.local                       subnet-0aa55ee1ff1589d24
+target-group            tcp-naba-k8s-local-516vkq                       arn:aws:elasticloadbalancing:us-east-2:513174677429:targetgroup/tcp-naba-k8s-local-516vkq/c3ba8dd2061f51a6
+volume                  a.etcd-events.naba.k8s.local                    vol-00090d9b66fc56e2b
+volume                  a.etcd-main.naba.k8s.local                      vol-071e33983c0b39562
+volume                  control-plane-us-east-2a.masters.naba.k8s.local vol-00c8b466bf3f51ee9
+volume                  nodes-us-east-2a.naba.k8s.local                 vol-0ae3f63726374f10f
+vpc                     naba.k8s.local                                  vpc-01b11c5fb7ddd50ed
+
+target-group:arn:aws:elasticloadbalancing:us-east-2:513174677429:targetgroup/tcp-naba-k8s-local-516vkq/c3ba8dd2061f51a6 still has dependencies, will retry
+autoscaling-config:lt-0d2c5186cccb3f40d ok
+load-balancer:arn:aws:elasticloadbalancing:us-east-2:513174677429:loadbalancer/net/api-naba-k8s-local-pedmp4/125ee201328a392a   ok
+autoscaling-config:lt-09febe30efb18ad74 ok
+internet-gateway:igw-06923c3653b3ad736  still has dependencies, will retry
+autoscaling-group:nodes-us-east-2a.naba.k8s.local       ok
+iam-instance-profile:masters.naba.k8s.local     ok
+autoscaling-group:control-plane-us-east-2a.masters.naba.k8s.local       ok
+iam-instance-profile:nodes.naba.k8s.local       ok
+instance:i-0764b936f3e6ed8f5    ok
+instance:i-0654d3e892cdd3fdd    ok
+security-group:sg-0c1bddb372267811d     ok
+volume:vol-071e33983c0b39562    still has dependencies, will retry
+volume:vol-00090d9b66fc56e2b    still has dependencies, will retry
+volume:vol-0ae3f63726374f10f    still has dependencies, will retry
+volume:vol-00c8b466bf3f51ee9    still has dependencies, will retry
+subnet:subnet-0aa55ee1ff1589d24 still has dependencies, will retry
+iam-role:nodes.naba.k8s.local   ok
+iam-role:masters.naba.k8s.local ok
+security-group:sg-044bc49de773f05f8     still has dependencies, will retry
+security-group:sg-09c5cb1735573d39a     still has dependencies, will retry
+Not all resources deleted; waiting before reattempting deletion
+        security-group:sg-044bc49de773f05f8
+        internet-gateway:igw-06923c3653b3ad736
+        vpc:vpc-01b11c5fb7ddd50ed
+        target-group:arn:aws:elasticloadbalancing:us-east-2:513174677429:targetgroup/tcp-naba-k8s-local-516vkq/c3ba8dd2061f51a6
+        volume:vol-071e33983c0b39562
+        subnet:subnet-0aa55ee1ff1589d24
+        volume:vol-0ae3f63726374f10f
+        security-group:sg-09c5cb1735573d39a
+        route-table:rtb-0665f3ad9a1629dca
+        dhcp-options:dopt-0d502efd84526a115
+        volume:vol-00c8b466bf3f51ee9
+        volume:vol-00090d9b66fc56e2b
+target-group:arn:aws:elasticloadbalancing:us-east-2:513174677429:targetgroup/tcp-naba-k8s-local-516vkq/c3ba8dd2061f51a6 ok
+volume:vol-071e33983c0b39562    still has dependencies, will retry
+volume:vol-0ae3f63726374f10f    still has dependencies, will retry
+volume:vol-00090d9b66fc56e2b    still has dependencies, will retry
+volume:vol-00c8b466bf3f51ee9    still has dependencies, will retry
+internet-gateway:igw-06923c3653b3ad736  still has dependencies, will retry
+subnet:subnet-0aa55ee1ff1589d24 still has dependencies, will retry
+security-group:sg-09c5cb1735573d39a     still has dependencies, will retry
+security-group:sg-044bc49de773f05f8     still has dependencies, will retry
+Not all resources deleted; waiting before reattempting deletion
+        security-group:sg-044bc49de773f05f8
+        internet-gateway:igw-06923c3653b3ad736
+        vpc:vpc-01b11c5fb7ddd50ed
+        volume:vol-071e33983c0b39562
+        subnet:subnet-0aa55ee1ff1589d24
+        volume:vol-0ae3f63726374f10f
+        security-group:sg-09c5cb1735573d39a
+        route-table:rtb-0665f3ad9a1629dca
+        dhcp-options:dopt-0d502efd84526a115
+        volume:vol-00c8b466bf3f51ee9
+        volume:vol-00090d9b66fc56e2b
+volume:vol-00090d9b66fc56e2b    still has dependencies, will retry
+volume:vol-00c8b466bf3f51ee9    still has dependencies, will retry
+volume:vol-0ae3f63726374f10f    still has dependencies, will retry
+volume:vol-071e33983c0b39562    still has dependencies, will retry
+subnet:subnet-0aa55ee1ff1589d24 still has dependencies, will retry
+internet-gateway:igw-06923c3653b3ad736  still has dependencies, will retry
+security-group:sg-044bc49de773f05f8     still has dependencies, will retry
+security-group:sg-09c5cb1735573d39a     still has dependencies, will retry
+Not all resources deleted; waiting before reattempting deletion
+        volume:vol-071e33983c0b39562
+        vpc:vpc-01b11c5fb7ddd50ed
+        security-group:sg-09c5cb1735573d39a
+        route-table:rtb-0665f3ad9a1629dca
+        subnet:subnet-0aa55ee1ff1589d24
+        volume:vol-0ae3f63726374f10f
+        dhcp-options:dopt-0d502efd84526a115
+        volume:vol-00c8b466bf3f51ee9
+        volume:vol-00090d9b66fc56e2b
+        security-group:sg-044bc49de773f05f8
+        internet-gateway:igw-06923c3653b3ad736
+volume:vol-00c8b466bf3f51ee9    still has dependencies, will retry
+volume:vol-071e33983c0b39562    still has dependencies, will retry
+volume:vol-00090d9b66fc56e2b    still has dependencies, will retry
+volume:vol-0ae3f63726374f10f    still has dependencies, will retry
+subnet:subnet-0aa55ee1ff1589d24 still has dependencies, will retry
+internet-gateway:igw-06923c3653b3ad736  still has dependencies, will retry
+security-group:sg-09c5cb1735573d39a     still has dependencies, will retry
+security-group:sg-044bc49de773f05f8     still has dependencies, will retry
+Not all resources deleted; waiting before reattempting deletion
+        volume:vol-071e33983c0b39562
+        vpc:vpc-01b11c5fb7ddd50ed
+        security-group:sg-09c5cb1735573d39a
+        route-table:rtb-0665f3ad9a1629dca
+        subnet:subnet-0aa55ee1ff1589d24
+        volume:vol-0ae3f63726374f10f
+        dhcp-options:dopt-0d502efd84526a115
+        volume:vol-00c8b466bf3f51ee9
+        volume:vol-00090d9b66fc56e2b
+        security-group:sg-044bc49de773f05f8
+        internet-gateway:igw-06923c3653b3ad736
+volume:vol-071e33983c0b39562    still has dependencies, will retry
+volume:vol-00090d9b66fc56e2b    still has dependencies, will retry
+volume:vol-00c8b466bf3f51ee9    still has dependencies, will retry
+volume:vol-0ae3f63726374f10f    still has dependencies, will retry
+internet-gateway:igw-06923c3653b3ad736  still has dependencies, will retry
+subnet:subnet-0aa55ee1ff1589d24 still has dependencies, will retry
+security-group:sg-09c5cb1735573d39a     still has dependencies, will retry
+security-group:sg-044bc49de773f05f8     still has dependencies, will retry
+Not all resources deleted; waiting before reattempting deletion
+        route-table:rtb-0665f3ad9a1629dca
+        subnet:subnet-0aa55ee1ff1589d24
+        volume:vol-0ae3f63726374f10f
+        security-group:sg-09c5cb1735573d39a
+        dhcp-options:dopt-0d502efd84526a115
+        volume:vol-00c8b466bf3f51ee9
+        volume:vol-00090d9b66fc56e2b
+        internet-gateway:igw-06923c3653b3ad736
+        security-group:sg-044bc49de773f05f8
+        volume:vol-071e33983c0b39562
+        vpc:vpc-01b11c5fb7ddd50ed
+volume:vol-071e33983c0b39562    still has dependencies, will retry
+volume:vol-00c8b466bf3f51ee9    still has dependencies, will retry
+volume:vol-00090d9b66fc56e2b    still has dependencies, will retry
+internet-gateway:igw-06923c3653b3ad736  still has dependencies, will retry
+volume:vol-0ae3f63726374f10f    ok
+subnet:subnet-0aa55ee1ff1589d24 still has dependencies, will retry
+security-group:sg-09c5cb1735573d39a     still has dependencies, will retry
+security-group:sg-044bc49de773f05f8     still has dependencies, will retry
+Not all resources deleted; waiting before reattempting deletion
+        dhcp-options:dopt-0d502efd84526a115
+        volume:vol-00c8b466bf3f51ee9
+        volume:vol-00090d9b66fc56e2b
+        security-group:sg-044bc49de773f05f8
+        internet-gateway:igw-06923c3653b3ad736
+        vpc:vpc-01b11c5fb7ddd50ed
+        volume:vol-071e33983c0b39562
+        subnet:subnet-0aa55ee1ff1589d24
+        security-group:sg-09c5cb1735573d39a
+        route-table:rtb-0665f3ad9a1629dca
+volume:vol-00090d9b66fc56e2b    still has dependencies, will retry
+volume:vol-00c8b466bf3f51ee9    still has dependencies, will retry
+volume:vol-071e33983c0b39562    still has dependencies, will retry
+internet-gateway:igw-06923c3653b3ad736  still has dependencies, will retry
+subnet:subnet-0aa55ee1ff1589d24 still has dependencies, will retry
+security-group:sg-09c5cb1735573d39a     still has dependencies, will retry
+security-group:sg-044bc49de773f05f8     ok
+Not all resources deleted; waiting before reattempting deletion
+        dhcp-options:dopt-0d502efd84526a115
+        volume:vol-00c8b466bf3f51ee9
+        volume:vol-00090d9b66fc56e2b
+        internet-gateway:igw-06923c3653b3ad736
+        volume:vol-071e33983c0b39562
+        vpc:vpc-01b11c5fb7ddd50ed
+        security-group:sg-09c5cb1735573d39a
+        route-table:rtb-0665f3ad9a1629dca
+        subnet:subnet-0aa55ee1ff1589d24
+volume:vol-00090d9b66fc56e2b    still has dependencies, will retry
+volume:vol-00c8b466bf3f51ee9    still has dependencies, will retry
+volume:vol-071e33983c0b39562    still has dependencies, will retry
+internet-gateway:igw-06923c3653b3ad736  still has dependencies, will retry
+subnet:subnet-0aa55ee1ff1589d24 still has dependencies, will retry
+security-group:sg-09c5cb1735573d39a     still has dependencies, will retry
+Not all resources deleted; waiting before reattempting deletion
+        volume:vol-071e33983c0b39562
+        vpc:vpc-01b11c5fb7ddd50ed
+        security-group:sg-09c5cb1735573d39a
+        route-table:rtb-0665f3ad9a1629dca
+        subnet:subnet-0aa55ee1ff1589d24
+        dhcp-options:dopt-0d502efd84526a115
+        volume:vol-00c8b466bf3f51ee9
+        volume:vol-00090d9b66fc56e2b
+        internet-gateway:igw-06923c3653b3ad736
+volume:vol-00090d9b66fc56e2b    still has dependencies, will retry
+volume:vol-00c8b466bf3f51ee9    still has dependencies, will retry
+volume:vol-071e33983c0b39562    still has dependencies, will retry
+internet-gateway:igw-06923c3653b3ad736  still has dependencies, will retry
+subnet:subnet-0aa55ee1ff1589d24 still has dependencies, will retry
+security-group:sg-09c5cb1735573d39a     still has dependencies, will retry
+Not all resources deleted; waiting before reattempting deletion
+        dhcp-options:dopt-0d502efd84526a115
+        volume:vol-00c8b466bf3f51ee9
+        volume:vol-00090d9b66fc56e2b
+        internet-gateway:igw-06923c3653b3ad736
+        vpc:vpc-01b11c5fb7ddd50ed
+        volume:vol-071e33983c0b39562
+        security-group:sg-09c5cb1735573d39a
+        route-table:rtb-0665f3ad9a1629dca
+        subnet:subnet-0aa55ee1ff1589d24
+volume:vol-00c8b466bf3f51ee9    ok
+volume:vol-00090d9b66fc56e2b    ok
+volume:vol-071e33983c0b39562    ok
+subnet:subnet-0aa55ee1ff1589d24 ok
+internet-gateway:igw-06923c3653b3ad736  ok
+security-group:sg-09c5cb1735573d39a     ok
+route-table:rtb-0665f3ad9a1629dca       ok
+vpc:vpc-01b11c5fb7ddd50ed       ok
+dhcp-options:dopt-0d502efd84526a115     ok
+Deleted kubectl config for naba.k8s.local
+
+Deleted cluster: "naba.k8s.local"
+root@ip-172-31-235-148:~#
+
 
 
 
